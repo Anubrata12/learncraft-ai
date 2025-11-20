@@ -7,7 +7,7 @@ app = FastAPI()
 # ---------------------------------
 #  Base Directories
 # ---------------------------------
-BASE_DIR = Path(__file__).resolve().parent.parent      # → backend/
+BASE_DIR = Path(__file__).resolve().parents[2]         # → backend/
 DATA_DIR = BASE_DIR / "data"                           # → backend/data/
 SCRIPT_DIR = DATA_DIR / "scripts"                      # → backend/data/scripts/
 OUT_DIR = DATA_DIR / "speeches"                        # → backend/data/speeches/
@@ -25,9 +25,11 @@ VOICE = "en-US-AriaNeural"
 #  Load script from file
 # ---------------------------------
 def load_script() -> str:
+    print("Looking for script at:", SCRIPT_PATH)
     if not SCRIPT_PATH.exists():
-        return "Script file missing at: " + str(SCRIPT_PATH)
+        return f"Script file missing at: {SCRIPT_PATH}"
     return SCRIPT_PATH.read_text(encoding="utf-8")
+
 
 
 # ---------------------------------
