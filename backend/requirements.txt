@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+
+edge-tts
+numpy<2
+soundfile
+pydub
+torch==2.2.0
+
+Pillow
+google-genai
+google-adk

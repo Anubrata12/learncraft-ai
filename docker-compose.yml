@@ -1,20 +1,21 @@
-# version: '3.9'
-
 services:
   streamlit-ui:
-    build: ./streamlit
+    build:
+      context: ./frontend
     ports:
       - "8501:8501"
     volumes:
-      - ./data:/app/data
+      - ./backend/data:/app/backend/data
     depends_on:
       - fastapi-backend
 
   fastapi-backend:
-    build: ./fastapi
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     volumes:
-      - ./data:/app/data
+      - ./backend/data:/app/data
     env_file:
       - .env

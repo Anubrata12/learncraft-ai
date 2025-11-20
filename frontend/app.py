@@ -1,4 +1,4 @@
-import streamlit as st
+import frontend as st
 import requests
 
 st.title("LearnCraft AI")
