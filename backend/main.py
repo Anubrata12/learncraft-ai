@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from agents.orchestrator import run_agent
-from agents.speeches_agent.narrator import synthesize_via_agent
+from agents.narrator import synthesize_via_agent
 
 
 app = FastAPI()
