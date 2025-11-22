@@ -9,13 +9,20 @@ from google.adk.tools import AgentTool
 from google.genai.types import Content, Part
 
 from agents.narrator import narrator_agent
+from agents.slide_agent import slide_agent
 
 load_dotenv()
 
 INSTRUCTIONS = """
 Generate a complete educational script based on the user's topic.
-Call the narrator agent to convert the script to MP3.
-Return ONLY the MP3 file path, never the script itself.
+
+Once the script is generated, 
+using the same script you MUST call the 'slide_agent' agent and then the 'narrator_agent' agent sequentially.
+
+1. Call the 'slide_agent' agent with the complete script content (the tool input).
+2. Call the 'narrator' agent with the complete script content (the tool input).
+
+After both tools return, your final output should ONLY be the MP3 file path provided by the 'narrator_agent' agen
 """
 
 # Orchestrator agent with narrator tool
@@ -24,7 +31,7 @@ orchestrator_agent = Agent(
     name="orchestrator",
     description="Minimal orchestrator agent",
     instruction=INSTRUCTIONS,
-    tools=[AgentTool(agent=narrator_agent)]
+    tools=[AgentTool(agent=narrator_agent), AgentTool(agent=slide_agent)]
 )
 
 runner = InMemoryRunner(
