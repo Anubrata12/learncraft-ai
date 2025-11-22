@@ -1,8 +1,12 @@
+import os
+from dotenv import load_dotenv
+
 from google.adk import Agent
 from google.adk.models.google_llm import Gemini
 from google.adk.runners import InMemoryRunner
 from tools.slide_tool import generate_structured_script, generate_slides_from_sections
 
+load_dotenv()
 
 INSTRUCTIONS = """ 
 You are a slide generation agent.
@@ -14,10 +18,10 @@ Your job:
 """
 
 slide_agent = Agent(
-    name = "slideAgent",
-    description = "Generates presentation slides from a structured script.",
-    model = Gemini(model = "gemini-2.5-flash-lite"),
-    instruction= INSTRUCTIONS,
-    tools = [generate_slides_from_sections],
-    output_key = "slide_paths"
+    name="slideAgent",
+    description="Generates presentation slides from a structured script.",
+    model=os.getenv("MODEL_TEXT"),
+    instruction=INSTRUCTIONS,
+    tools=[generate_slides_from_sections],
+    output_key="slide_paths"
 )
