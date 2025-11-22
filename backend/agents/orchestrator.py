@@ -22,7 +22,7 @@ using the same script you MUST call the 'slide_agent' agent and then the 'narrat
 1. Call the 'slide_agent' agent with the complete script content (the tool input).
 2. Call the 'narrator' agent with the complete script content (the tool input).
 
-After both tools return, your final output should ONLY be the MP3 file path provided by the 'narrator_agent' agen
+After both tools return, your final output should ONLY be the MP3 file path provided by the 'narrator_agent' agent
 """
 
 # Orchestrator agent with narrator tool
