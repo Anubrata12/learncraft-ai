@@ -1,31 +1,33 @@
 import streamlit as st
-import base64
-import os
+import requests
 
-st.set_page_config(page_title="AI Video", layout="centered")
+FASTAPI_URL = "http://fastapi-backend:8000/generate"
+VIDEO_PATH = "/app/backend/data/videos/Summertime.mp4"
 
-VIDEO_PATH = "/app/backend/data/videos/music_video.mp4"
+st.title("🎬 Educative AI Video Generator")
 
-st.title("🎬 Educative AI Video Player")
+topic = st.chat_input("Enter a topic...")
 
-# Chat-style input stays visible
-query = st.chat_input("Enter a topic...")
+if topic:
+    with st.chat_message("user"):
+        st.write(topic)
 
-if query:
-    st.chat_message("user").write(query)
-    st.chat_message("assistant").write("Generating video...")
+    with st.chat_message("assistant"):
+        with st.spinner("Processing..."):
 
-    if not os.path.exists(VIDEO_PATH):
-        st.error(f"Video file not found at: {VIDEO_PATH}")
-    else:
-        video_bytes = open(VIDEO_PATH, "rb").read()
-        video_b64 = base64.b64encode(video_bytes).decode("utf-8")
+            try:
+                # Call FastAPI
+                resp = requests.get(FASTAPI_URL, params={"topic": topic}, timeout=90)
 
-        st.markdown(
-            f"""
-            <video width="100%" controls style="border-radius:12px;">
-                <source src="data:video/mp4;base64,{video_b64}" type="video/mp4">
-            </video>
-            """,
-            unsafe_allow_html=True
-        )
+                if resp.status_code == 200:
+                    # Success → always show the hard-coded video
+                    try:
+                        with open(VIDEO_PATH, "rb") as f:
+                            st.video(f.read())
+                    except:
+                        st.error(f"Video file not found at: {VIDEO_PATH}")
+                else:
+                    st.error("Video generation failed.")
+
+            except Exception:
+                st.error("Video generation failed.")
