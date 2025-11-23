@@ -23,7 +23,7 @@ Output: "basic_algebra"
 
 topic_agent = Agent(
     model=os.getenv("MODEL_TEXT"),
-    name="topic_agent",
+    name="TopicAgent",
     description="Extracts a short topic name (1-2 words) from input text",
     instruction=INSTRUCTIONS,
     tools=[],  # No tools needed

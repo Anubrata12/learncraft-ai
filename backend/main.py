@@ -5,7 +5,7 @@ from google.adk.runners import Runner
 from google.genai.types import Content, Part
 import uuid
 
-from agents.orchestrator import orchestrator_agent
+from agents.root_agent import root_agent
 
 app = FastAPI()
 
@@ -15,30 +15,38 @@ session_service = InMemorySessionService()
 # Google ADK Runner
 runner = Runner(
     app_name="learncraft-ai",
-    agent=orchestrator_agent,
+    agent=root_agent,
     session_service=session_service
 )
 
 
 @app.get("/generate")
-async def generate(topic: str, user_id: str | None = None):
-    user_id = user_id or "anon"
-    session_id = str(uuid.uuid4())
+async def generate(topic: str, user_id: str = "anon", session_id: str | None = None):
+    # --- Reuse existing session if provided ---
+    if session_id:
+        try:
+            session = await session_service.get_session(
+                app_name=runner.app_name,
+                session_id=session_id,
+                user_id=user_id
+            )
+        except Exception:
+            # if not found, create fresh session
+            session = await session_service.create_session(
+                app_name=runner.app_name,
+                session_id=session_id,
+                user_id=user_id
+            )
 
-    # --- Try to create a new session first, fallback to get_session ---
-    try:
+    # --- Create new session for first-time call ---
+    else:
+        session_id = str(uuid.uuid4())
         session = await session_service.create_session(
             app_name=runner.app_name,
             session_id=session_id,
             user_id=user_id
         )
-    except Exception:
-        session = await session_service.get_session(
-            app_name=runner.app_name,
-            session_id=session_id,
-            user_id=user_id
-        )
-    # ---------------------------------------------------
+
 
     content = Content(parts=[Part(text=topic)])
     mp3_path = None
