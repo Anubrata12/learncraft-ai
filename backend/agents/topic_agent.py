@@ -27,4 +27,5 @@ topic_agent = Agent(
     description="Extracts a short topic name (1-2 words) from input text",
     instruction=INSTRUCTIONS,
     tools=[],  # No tools needed
+    output_key="topic_name",
 )
