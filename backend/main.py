@@ -1,33 +1,46 @@
 # main.py
 from fastapi import FastAPI
-from google.adk.runners import InMemoryRunner
+from google.adk.sessions import InMemorySessionService
+from google.adk.runners import Runner
 from google.genai.types import Content, Part
+import uuid
 
 from agents.orchestrator import orchestrator_agent
-from session_manager import ADKSessionManager
 
 app = FastAPI()
 
+# ADK session service
+session_service = InMemorySessionService()
+
 # Google ADK Runner
-runner = InMemoryRunner(
+runner = Runner(
     app_name="learncraft-ai",
-    agent=orchestrator_agent
+    agent=orchestrator_agent,
+    session_service=session_service
 )
 
 
 @app.get("/generate")
 async def generate(topic: str, user_id: str | None = None):
-    # Default user fallback
     user_id = user_id or "anon"
+    session_id = str(uuid.uuid4())
 
-    # Always ADK session (UUID inside)
-    session = await ADKSessionManager.get_or_create_session(
-        runner=runner,
-        user_id=user_id
-    )
+    # --- Try to create a new session first, fallback to get_session ---
+    try:
+        session = await session_service.create_session(
+            app_name=runner.app_name,
+            session_id=session_id,
+            user_id=user_id
+        )
+    except Exception:
+        session = await session_service.get_session(
+            app_name=runner.app_name,
+            session_id=session_id,
+            user_id=user_id
+        )
+    # ---------------------------------------------------
 
     content = Content(parts=[Part(text=topic)])
-
     mp3_path = None
 
     async for event in runner.run_async(
@@ -35,7 +48,6 @@ async def generate(topic: str, user_id: str | None = None):
         session_id=session.id,
         new_message=content
     ):
-        # DEBUG PRINTS
         print("EVENT TYPE:", type(event))
         print("EVENT RAW:", event)
 
@@ -43,7 +55,6 @@ async def generate(topic: str, user_id: str | None = None):
             part = event.content.parts[0]
             print("PART TEXT:", part.text)
 
-            # Narrator_agent final output (just the mp3 path)
             if part.text:
                 clean_part = part.text.strip()
                 if clean_part.endswith(".mp3"):
