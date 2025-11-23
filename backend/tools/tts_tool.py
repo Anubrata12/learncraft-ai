@@ -3,31 +3,20 @@ from pathlib import Path
 import edge_tts
 from dotenv import load_dotenv
 
-
 load_dotenv()
 
-# Input directory
-SCRIPT_PATH = Path("/app/data/scripts/algebra.md")
-# Output directory
 OUTPUT_DIR = Path("/app/data/speeches")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-FILENAME = "algebra.mp3"
 
+async def tts_tool(text: str, topic: str) -> str:
+    # Ensure safe filename
+    safe_topic = topic.replace(" ", "_").lower() if topic else "script"
+    output_file = OUTPUT_DIR / f"{safe_topic}.mp3"
 
-def load_script() -> str:
-    print("[DEBUG] Loading script from:", SCRIPT_PATH.resolve())
-    return SCRIPT_PATH.read_text(encoding="utf-8")
-
-# --- IMPORTANT: must be async for ADK ---
-async def tts_tool(text: str) -> str:
-    print("TTS_TOOL*******: Starting TTS generation")
-    output_file = OUTPUT_DIR / FILENAME
-
-    print("TOOL CALL: Generating TTS for text length:", len(text))
+    print(f"TTS_TOOL*******: Generating MP3 for topic '{safe_topic}' at {output_file}")
 
     tts = edge_tts.Communicate(text, os.getenv("MODEL_TTS"))
-    await tts.save(str(output_file))   # <-- no crash
+    await tts.save(str(output_file))
 
-    print("TOOL CALL: Saved MP3:", output_file)
-
+    print(f"TTS_TOOL*******: Saved MP3 at {output_file}")
     return str(output_file.resolve())
