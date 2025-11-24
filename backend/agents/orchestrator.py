@@ -5,9 +5,9 @@ from google.adk.tools import AgentTool
 
 from agents.topic_agent import topic_agent
 from agents.script_agent import script_agent
-from agents.narrator import narrator_agent
+from agents.narrator_agent import narrator_agent
 from agents.slide_agent import slide_agent
-from agents.video_compiler_agent import video_compiler
+from agents.video_compiler_agent import video_compiler_agent
 
 load_dotenv()
 
@@ -21,9 +21,9 @@ Your task is:
 2. Call the 'topic_agent' to generate a short topic name (max 2 words) from the input.
 3. Call the 'script_agent' to generate a complete educational script based on the user's input.
 4. Using the SAME script content from step 3 and the topic from step 2:
-   - First call the 'slide_agent' tool with the script and the topic.
-   - Then call the 'narrator_agent' tool with the script and the topic.
-   - Third call the 'video_compiler' tool with:
+   - First call the 'slide_agent' with the script and the topic.
+   - Then call the 'narrator_agent' with the script and the topic.
+   - Third call the 'video_compiler_agent' with:
         - the MP3 file path returned by the 'narrator_agent'
         - the list of slides file paths returned by the 'slide_agent'
 5. When the narrator_agent returns the MP3 file path,
@@ -44,6 +44,6 @@ orchestrator_agent = Agent(
         AgentTool(agent=script_agent),
         AgentTool(agent=slide_agent),
         AgentTool(agent=narrator_agent),
-        AgentTool(agent=video_compiler)
+        AgentTool(agent=video_compiler_agent)
     ],
 )

@@ -34,7 +34,7 @@ Keep slide content concise and easy to convert into visuals.
 
 script_agent = Agent(
     model=os.getenv("MODEL_TEXT"),
-    name="script_agent",
+    name="ScriptAgent",
     description="Generates an educational script based on user input",
     instruction=INSTRUCTIONS,
     tools=[],

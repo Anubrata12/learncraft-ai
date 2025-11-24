@@ -18,10 +18,10 @@ Your task is to orchestrate the video compilation process by calling the 'stitch
 4. Do not add explanations, formatting, or additional text.
 """
 
-video_compiler = Agent(
+video_compiler_agent = Agent(
     model=os.getenv("MODEL_TEXT"),
     description="Compiles slides and audio into a final video.",
-    name="video_compiler",
+    name="VideoCompilerAgent",
     tools=[stitch_video],
     instruction=INSTRUCTIONS,
 )
