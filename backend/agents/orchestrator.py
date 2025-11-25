@@ -23,21 +23,28 @@ Your task is:
 4. Using the SAME script content from step 3 and the topic from step 2:
    - First call the 'slide_agent' with the script and the topic.
    - Then call the 'narrator_agent' with the script and the topic.
-   - Third call the 'video_compiler_agent' with:
-        - the MP3 file path returned by the 'narrator_agent'
-        - the list of slides file paths returned by the 'slide_agent'
-5. When the narrator_agent returns the MP3 file path,
+   - Third call the 'video_compiler_agent'. 
+     IMPORTANT: You must pass exactly ONE argument named 'request'.
+     The value of 'request' must be a JSON string containing the following keys:
+        - "topic": the topic from step 2
+        - "audio_path": the MP3 file path returned by the 'narrator_agent'
+        - "image_paths": the list of slides file paths returned by the 'slide_agent'
+     
+     Example of the argument structure: 
+     request='{"topic": "triangle", "audio_path": "/path/to/audio.mp3", "image_paths": ["/path/1.png", "/path/2.png"]}'
+
+5. When the 'video_compiler_agent' returns the MP4 file path,
    your FINAL MESSAGE must contain ONLY that file path.
    Absolutely no extra text, no quotes, no JSON, no explanation.
    Example of final output:
-   /app/data/speeches/quantum_physics.mp3
+   /app/data/videos/quantum_physics.mp4
 """
 
 
 orchestrator_agent = Agent(
     model=os.getenv("MODEL_TEXT"),
     name="orchestrator",
-    description="Generates slides + narration for a user query",
+    description="Generates the educational video by orchestrating multiple specialized agents.",
     instruction=INSTRUCTIONS,
     tools=[
         AgentTool(agent=topic_agent),
