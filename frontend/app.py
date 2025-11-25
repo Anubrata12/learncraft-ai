@@ -1,9 +1,10 @@
 import streamlit as st
 import requests
+import os
 
 FASTAPI_URL = "http://fastapi-backend:8000/generate"
-VIDEO_PATH = "/app/backend/data/videos/Summertime.mp4"
 
+st.set_page_config(page_title="Educative AI Video Generator")
 st.title("🎬 Educative AI Video Generator")
 
 topic = st.chat_input("Enter a topic...")
@@ -17,17 +18,34 @@ if topic:
 
             try:
                 # Call FastAPI
-                resp = requests.get(FASTAPI_URL, params={"topic": topic}, timeout=90)
+                resp = requests.get(
+                    FASTAPI_URL,
+                    params={"topic": topic},
+                    timeout=120
+                )
 
-                if resp.status_code == 200:
-                    # Success → always show the hard-coded video
-                    try:
-                        with open(VIDEO_PATH, "rb") as f:
-                            st.video(f.read())
-                    except:
-                        st.error(f"Video file not found at: {VIDEO_PATH}")
-                else:
+                if resp.status_code != 200:
                     st.error("Video generation failed.")
+                    st.stop()
 
-            except Exception:
+                data = resp.json()
+
+                if "mp4" not in data:
+                    st.error("Backend did not return an mp4 path.")
+                    st.stop()
+
+                backend_path = data["mp4"]  # e.g. /app/data/videos/algebra.mp4
+
+                # Convert backend path → Streamlit container path
+                local_path = backend_path.replace("/app/data", "/app/backend/data")
+
+                if not os.path.exists(local_path):
+                    st.error(f"Video file not found at: {local_path}")
+                    st.stop()
+
+                # Load and play video
+                with open(local_path, "rb") as f:
+                    st.video(f.read())
+
+            except Exception as e:
                 st.error("Video generation failed.")
