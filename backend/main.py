@@ -4,6 +4,7 @@ from google.adk.sessions import InMemorySessionService
 from google.adk.runners import Runner
 from google.genai.types import Content, Part
 import uuid
+import re
 
 from agents.orchestrator import orchestrator_agent
 
@@ -50,6 +51,7 @@ async def generate(topic: str, user_id: str = "anon", session_id: str | None = N
 
     content = Content(parts=[Part(text=topic)])
     mp4_path = None
+    exercises = None
 
     async for event in runner.run_async(
         user_id=user_id,
@@ -57,23 +59,36 @@ async def generate(topic: str, user_id: str = "anon", session_id: str | None = N
         new_message=content
     ):
         print("EVENT TYPE:", type(event))
-        print("SESSION ID:", session.id)
         print("EVENT RAW:", event)
 
         if event.content and event.content.parts:
             part = event.content.parts[0]
-            print("PART TEXT:", part.text)
+            if not part.text:
+                continue
 
-            if part.text:
-                clean_part = part.text.strip()
-                if clean_part.endswith(".mp4"):
-                    mp4_path = clean_part
-                    print("🎯 CAPTURED MP4:", clean_part)
+            clean = part.text.strip()
 
-    print("FINAL MP4 PATH:", mp4_path)
+            # 🍿 NEW: capture mp4 instead of mp3
+            if clean.endswith(".mp4"):
+                mp4_path = clean
 
+            # Exercise output handling
+            elif "EXERCISE_OUTPUT:" in clean:
+                exercises = clean.replace("EXERCISE_OUTPUT:", "").strip()
+
+            elif re.match(r"^\d+\.", clean):
+                if exercises is None:
+                    exercises = clean
+                else:
+                    exercises += "\n" + clean
+
+    # ---- Final Response ----
     return {
         "session_id": session.id,
         "user_id": user_id,
-        "mp4": mp4_path or "No MP4 generated"
+
+        # updated output key
+        "mp4": mp4_path,
+
+        "exercises": exercises,
     }

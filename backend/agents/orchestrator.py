@@ -8,6 +8,8 @@ from agents.script_agent import script_agent
 from agents.narrator_agent import narrator_agent
 from agents.slide_agent import slide_agent
 from agents.video_compiler_agent import video_compiler_agent
+from agents.exercise_agent import exercise_agent
+from tools.state_tool import save_topic, load_topic
 
 load_dotenv()
 
@@ -15,10 +17,30 @@ INSTRUCTIONS = """
 
 You are the Orchestrator.
 
+RULE 1 — Exercise Mode
+-----------------------
+If the user message contains:
+"exercise", "practice", "questions", "quiz", "test"
+
+- First call load_topic
+- Then call ExerciseAgent with:
+    topic_name = the topic returned from load_topic
+
+- Store the result:
+    $store("exercise_text", exercise_text)
+
+- Return only the exercise output.
+- Do NOT run the video pipeline in this mode.
+
+
+RULE 2 — Full Video Pipeline
+----------------------------
+
 Your task is:
 
 1. Receive the user's input text.
 2. Call the 'topic_agent' to generate a short topic name (max 2 words) from the input.
+    - After receiving the topic_name, IMMEDIATELY call save_topic(topic_name=...).
 3. Call the 'script_agent' to generate a complete educational script based on the user's input.
 4. Using the SAME script content from step 3 and the topic from step 2:
    - First call the 'slide_agent' with the script and the topic.
@@ -51,6 +73,9 @@ orchestrator_agent = Agent(
         AgentTool(agent=script_agent),
         AgentTool(agent=slide_agent),
         AgentTool(agent=narrator_agent),
-        AgentTool(agent=video_compiler_agent)
+        AgentTool(agent=video_compiler_agent),
+        AgentTool(agent=exercise_agent),
+        save_topic,
+        load_topic,
     ],
 )
