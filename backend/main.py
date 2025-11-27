@@ -1,7 +1,16 @@
 # main.py
+import logging
+# --- 1. Set Logging Level to DEBUG ---
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(levelname)s - %(name)s - %(message)s'
+)
+logging.getLogger("google.adk").setLevel(logging.DEBUG)
+
 from fastapi import FastAPI
 from google.adk.sessions import InMemorySessionService
 from google.adk.runners import Runner
+from google.adk.plugins.logging_plugin import LoggingPlugin
 from google.genai.types import Content, Part
 import uuid
 import re
@@ -17,7 +26,10 @@ session_service = InMemorySessionService()
 runner = Runner(
     app_name="learncraft-ai",
     agent=orchestrator_agent,
-    session_service=session_service
+    session_service=session_service,
+    plugins=[
+        LoggingPlugin() # <-- Registration of the plugin
+    ]
 )
 
 
@@ -58,8 +70,8 @@ async def generate(topic: str, user_id: str = "anon", session_id: str | None = N
         session_id=session.id,
         new_message=content
     ):
-        print("EVENT TYPE:", type(event))
-        print("EVENT RAW:", event)
+        #print("EVENT TYPE:", type(event))
+        #print("EVENT RAW:", event)
 
         if event.content and event.content.parts:
             part = event.content.parts[0]
