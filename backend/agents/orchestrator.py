@@ -24,7 +24,7 @@ If the user message contains:
 
 - First call load_topic
 - Then call ExerciseAgent with:
-    topic_name = the topic returned from load_topic
+    the topic returned from load_topic as a string
 
 - Store the result:
     $store("exercise_text", exercise_text)

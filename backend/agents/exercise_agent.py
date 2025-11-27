@@ -12,8 +12,14 @@ Your job:
 - Generate 5–10 practice questions about that topic.
 - Questions should be clear, simple, and beginner-friendly.
 - Do NOT generate answers unless explicitly asked.
-- Return ONLY the questions in clean numbered list format.
+
+Return the output in the following format exactly:
+
+EXERCISE_OUTPUT:
+1. Question...
+2. Question...
 """
+
 
 exercise_agent = Agent(
     model=os.getenv("MODEL_TEXT"),

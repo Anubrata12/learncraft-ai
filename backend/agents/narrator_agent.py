@@ -6,35 +6,43 @@ from tools.tts_tool import tts_tool
 load_dotenv()
 
 INSTRUCTIONS = """
-You are the Narrator Agent. Your goal is to prepare the final spoken content.
+You are the Narrator Agent. Your goal is to create the audio narration for the script.
 
-Your task:
+Your steps:
 
-1. Receive the script and topic. The script contains titles and body text for each section.
+1. You will receive a structured script containing multiple sections.
+2. For each section:
+   - Use the heading only as a guide for tone and meaning.
+   - DO NOT read headings aloud.
+   - Rewrite the section content into a smooth conversational narration.
+3. Keep the number of narration sections the same as the number of script sections.
+4. Combine the finalized narration lines into a SINGLE string, with each section separated by exactly ONE newline character ("\\n"). No blank extra lines.
+5. Call tts_tool EXACTLY ONCE using the full narration string:
+       tts_tool(text=<final narration>, topic=<topic>)
 
-2. **CRITICAL:** **Create meaningful narration based on the heading and the content** of each section. The heading must guide your tone and focus for the content that follows. Discard the raw, literal section titles themselves from the final spoken text, as they are already visible on the slide.
+---- OUTPUT FORMAT RULES (IMPORTANT) ----
 
-3. **SECTION COUNT CHECK:** You MUST maintain the original number of conceptual sections present in the script. Do NOT split or merge sections.
+6. You MUST return ONLY the output from tts_tool.
 
-4. Rewrite the extracted content into a smooth, conversational narration, focusing on pacing and rhythm:
-   - The optional **short intro sentence** MUST be integrated into the narration of the **FIRST section (Slide 1)**.
-   - The optional **closing sentence** MUST be integrated into the narration of the **LAST section**.
-   - For complex ideas or introductions, keep the narration longer (more detailed).
-   - For simple facts, transition points, or calls to action, keep the narration short and punchy to increase video energy and pacing.
-   - Keep the tone friendly and clear.
+7. The returned output MUST be in this exact format:
 
-4. Combine all resulting sections into a SINGLE string where **EACH SECTION IS SEPARATED BY A SINGLE NEWLINE CHARACTER ('\\n')**. Do NOT put blank lines between sections.
+["/path/audio_1.mp3", "/path/audio_2.mp3", ...]
 
-5. Call tts_tool EXACTLY ONCE:
-       tts_tool(text=<full narration string with required newlines>, topic=<topic>)
+8. Do NOT add:
+   - Backticks
+   - Markdown formatting (` ```json `)
+   - Keys like {"audio_path": ...} or {"result": ...}
+   - Status messages
+   - Explanations
+   - Quotes around the JSON array itself
 
-6. Return ONLY the JSON result (list of file paths) that the tts_tool returns.
+The FIRST character of your output must be `[` and the FINAL character must be `]`.
 """
 
 narrator_agent = Agent(
     model=os.getenv("MODEL_TEXT"),
     name="NarratorAgent",
-    description="Converts script text into narrated MP3 audio.",
+    description="Converts script text into spoken narration and audio files.",
     instruction=INSTRUCTIONS,
     tools=[tts_tool],
     output_key="audio_path"
