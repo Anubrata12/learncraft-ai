@@ -49,11 +49,10 @@ Your task is:
      IMPORTANT: You must pass exactly ONE argument named 'request'.
      The value of 'request' must be a JSON string containing the following keys:
         - "topic": the topic from step 2
-        - "audio_path": the MP3 file path returned by the 'narrator_agent'
-        - "image_paths": the list of slides file paths returned by the 'slide_agent'
-     
+        - "audio_paths": the list of MP3 file paths returned by the 'narrator_agent'
+        - "image_paths": the list of slides file paths returned by the 'slide_agent'    
      Example of the argument structure: 
-     request='{"topic": "triangle", "audio_path": "/path/to/audio.mp3", "image_paths": ["/path/1.png", "/path/2.png"]}'
+     request='{"topic": "triangle", "audio_paths": ["/path/to/audio.mp3","/path/to/audio.mp3"], "image_paths": ["/path/1.png", "/path/2.png"]}'
 
 5. When the 'video_compiler_agent' returns the MP4 file path,
    your FINAL MESSAGE must contain ONLY that file path.
@@ -61,7 +60,6 @@ Your task is:
    Example of final output:
    /app/data/videos/quantum_physics.mp4
 """
-
 
 orchestrator_agent = Agent(
     model=os.getenv("MODEL_TEXT"),
