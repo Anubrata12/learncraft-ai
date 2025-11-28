@@ -67,7 +67,8 @@ Your task is:
 
 RULE 3 — Exercise Answers
 -------------------------
-If the user asks for: "answers", "solutions", "answer key", "check", or "show answers"
+If the user message contains any of the following words (case-insensitive):
+"answer", "answers", "solution", "solutions", "answer key", "check", "show answers":
 
 1. Call load_exercises to retrieve the stored practice questions.
 2. If no stored exercises exist, respond:
