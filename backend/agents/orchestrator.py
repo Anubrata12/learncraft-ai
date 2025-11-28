@@ -10,7 +10,7 @@ from agents.slide_agent import slide_agent
 from agents.video_compiler_agent import video_compiler_agent
 from agents.exercise_agent import exercise_agent
 from agents.answer_agent import answer_agent
-from tools.state_tool import save_topic, load_topic, save_exercises, load_exercises
+from tools.state_tool import save_topic, load_topic, save_exercises, load_exercises, save_script, load_script
 
 
 load_dotenv()
@@ -24,9 +24,9 @@ RULE 1 — Exercise Mode
 If the user message contains:
 "exercise", "practice", "questions", "quiz", "test"
 
-1. First call load_topic
-2. Then call ExerciseAgent with:
-    the topic returned from load_topic as a string
+- First call load_script
+- Then call ExerciseAgent with:
+    the script returned from load_script as a string
 
 3. When ExerciseAgent finishes, immediately call:
      save_exercises(exercises=<output of ExerciseAgent>)
@@ -45,6 +45,7 @@ Your task is:
 2. Call the 'topic_agent' to generate a short topic name (max 2 words) from the input.
     - After receiving the topic_name, IMMEDIATELY call save_topic(topic_name=...).
 3. Call the 'script_agent' to generate a complete educational script based on the user's input.
+    - After receiving the script content, IMMEDIATELY call save_script(script_text=...).
 4. Using the SAME script content from step 3 and the topic from step 2:
    - First call the 'slide_agent' with the script and the topic.
    - Then call the 'narrator_agent' with the script and the topic.
@@ -98,6 +99,8 @@ orchestrator_agent = Agent(
         AgentTool(agent=answer_agent),
         save_topic,
         load_topic,
+        save_script,
+        load_script,
         save_exercises,
         load_exercises,
     ],
