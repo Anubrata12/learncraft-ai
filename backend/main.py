@@ -64,11 +64,12 @@ async def generate(topic: str, user_id: str = "anon", session_id: str | None = N
     content = Content(parts=[Part(text=topic)])
     mp4_path = None
     exercises = None
+    answers = None  # add this at the top with mp4_path, exercises
 
     async for event in runner.run_async(
-        user_id=user_id,
-        session_id=session.id,
-        new_message=content
+            user_id=user_id,
+            session_id=session.id,
+            new_message=content
     ):
         #print("EVENT TYPE:", type(event))
         #print("EVENT RAW:", event)
@@ -80,13 +81,14 @@ async def generate(topic: str, user_id: str = "anon", session_id: str | None = N
 
             clean = part.text.strip()
 
-            # 🍿 NEW: capture mp4 instead of mp3
             if clean.endswith(".mp4"):
                 mp4_path = clean
 
-            # Exercise output handling
             elif "EXERCISE_OUTPUT:" in clean:
                 exercises = clean.replace("EXERCISE_OUTPUT:", "").strip()
+
+            elif "ANSWER_OUTPUT:" in clean:  # <-- new line
+                answers = clean.replace("ANSWER_OUTPUT:", "").strip()
 
             elif re.match(r"^\d+\.", clean):
                 if exercises is None:
@@ -98,9 +100,7 @@ async def generate(topic: str, user_id: str = "anon", session_id: str | None = N
     return {
         "session_id": session.id,
         "user_id": user_id,
-
-        # updated output key
         "mp4": mp4_path,
-
         "exercises": exercises,
+        "answers": answers,  # <-- new line
     }

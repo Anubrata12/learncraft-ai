@@ -12,3 +12,12 @@ def save_topic(tool_context: ToolContext, topic_name: str) -> Dict[str, Any]:
 def load_topic(tool_context: ToolContext) -> Dict[str, Any]:
     topic = tool_context.state.get("app:topic_name", None)
     return {"topic_name": topic}
+
+# Store exercises
+def save_exercises(tool_context: ToolContext, exercises: str):
+    tool_context.state["app:exercises"] = exercises
+    return {"status": "saved"}
+
+# Retrieve stored exercises
+def load_exercises(tool_context: ToolContext):
+    return {"exercises": tool_context.state.get("app:exercises")}
