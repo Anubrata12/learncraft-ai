@@ -27,9 +27,19 @@ if topic:
                 else:
                     data = resp.json()
                     exercises = data.get("exercises", None)
-                    if exercises:
+                    answers = data.get("answers", None)
+
+                    if exercises and not answers:
                         st.subheader("📝 Practice Exercises")
                         st.write(exercises)
+
+                    elif exercises and answers:
+                        st.subheader("📝 Practice Exercises")
+                        st.write(exercises)
+
+                        st.subheader("✅ Answers")
+                        st.write(answers)
+
                     else:
                         backend_path = data["mp4"]
                         local_path = backend_path.replace("/app/data", "/app/backend/data")

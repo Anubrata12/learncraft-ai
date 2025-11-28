@@ -7,7 +7,6 @@ def save_topic(tool_context: ToolContext, topic_name: str) -> Dict[str, Any]:
     tool_context.state["app:topic_name"] = topic_name
     return {"status": "saved"}
 
-
 # Retrieve topic_name
 def load_topic(tool_context: ToolContext) -> Dict[str, Any]:
     topic = tool_context.state.get("app:topic_name", None)
@@ -18,8 +17,16 @@ def save_script(tool_context: ToolContext, script_text: str) -> Dict[str, Any]:
     tool_context.state["app:script_text"] = script_text
     return {"status": "saved"}
 
-
 # Retrieve script_text
 def load_script(tool_context: ToolContext) -> Dict[str, Any]:
     topic = tool_context.state.get("app:script_text", None)
     return {"script_text": topic}
+  
+# Store exercises
+def save_exercises(tool_context: ToolContext, exercises: str):
+    tool_context.state["app:exercises"] = exercises
+    return {"status": "saved"}
+
+# Retrieve stored exercises
+def load_exercises(tool_context: ToolContext):
+    return {"exercises": tool_context.state.get("app:exercises")}

@@ -9,7 +9,9 @@ from agents.narrator_agent import narrator_agent
 from agents.slide_agent import slide_agent
 from agents.video_compiler_agent import video_compiler_agent
 from agents.exercise_agent import exercise_agent
-from tools.state_tool import save_topic, load_topic, save_script, load_script
+from agents.answer_agent import answer_agent
+from tools.state_tool import save_topic, load_topic, save_exercises, load_exercises, save_script, load_script
+
 
 load_dotenv()
 
@@ -26,11 +28,12 @@ If the user message contains:
 - Then call ExerciseAgent with:
     the script returned from load_script as a string
 
-- Store the result:
-    $store("exercise_text", exercise_text)
+3. When ExerciseAgent finishes, immediately call:
+     save_exercises(exercises=<output of ExerciseAgent>)
 
-- Return only the exercise output.
-- Do NOT run the video pipeline in this mode.
+4. Return ONLY the generated exercise questions to the user.
+
+5. Do NOT run the video pipeline in this mode.
 
 
 RULE 2 — Full Video Pipeline
@@ -60,6 +63,25 @@ Your task is:
    Absolutely no extra text, no quotes, no JSON, no explanation.
    Example of final output:
    /app/data/videos/quantum_physics.mp4
+   
+
+RULE 3 — Exercise Answers
+-------------------------
+If the user asks for: "answers", "solutions", "answer key", "check", or "show answers"
+
+1. Call load_exercises to retrieve the stored practice questions.
+2. If no stored exercises exist, respond:
+   "No exercises are saved. Please request exercises first."
+
+3. Otherwise call AnswerAgent with ONE argument named "request".
+   The value MUST be a JSON string containing the stored exercises.
+
+   Example:
+   AnswerAgent(request="{\"exercises\":\"<stored_text>\"}")
+
+4. Return the combined result:
+   Exercises + Answers.
+
 """
 
 orchestrator_agent = Agent(
@@ -74,9 +96,12 @@ orchestrator_agent = Agent(
         AgentTool(agent=narrator_agent),
         AgentTool(agent=video_compiler_agent),
         AgentTool(agent=exercise_agent),
+        AgentTool(agent=answer_agent),
         save_topic,
         load_topic,
         save_script,
         load_script,
+        save_exercises,
+        load_exercises,
     ],
 )
