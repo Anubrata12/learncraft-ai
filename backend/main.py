@@ -15,7 +15,7 @@ from google.genai.types import Content, Part
 import uuid
 import re
 
-from agents.orchestrator import orchestrator_agent
+from agents.agent import root_agent
 
 app = FastAPI()
 
@@ -25,7 +25,7 @@ session_service = InMemorySessionService()
 # Google ADK Runner
 runner = Runner(
     app_name="learncraft-ai",
-    agent=orchestrator_agent,
+    agent=root_agent,
     session_service=session_service,
     plugins=[
         LoggingPlugin() # <-- Registration of the plugin
