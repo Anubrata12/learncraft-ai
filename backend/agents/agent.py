@@ -4,14 +4,14 @@ from google.adk import Agent
 from google.adk.agents import SequentialAgent
 from google.adk.tools import AgentTool
 
-from agents.topic_agent import topic_agent
-from agents.script_agent import script_agent
-from agents.narrator_agent import narrator_agent
-from agents.slide_agent import slide_agent
-from agents.video_compiler_agent import video_compiler_agent
-from agents.exercise_agent import exercise_agent
-from agents.answer_agent import answer_agent
-from tools.state_tool import save_topic, load_topic, save_exercises, load_exercises, save_script, load_script
+from .topic_agent import topic_agent
+from .script_agent import script_agent
+from .narrator_agent import narrator_agent
+from .slide_agent import slide_agent
+from .video_compiler_agent import video_compiler_agent
+from .exercise_agent import exercise_agent
+from .answer_agent import answer_agent
+from backend.tools.state_tool import save_topic, load_topic, save_exercises, load_exercises, save_script, load_script
 
 load_dotenv()
 
@@ -87,7 +87,7 @@ media_pipeline = SequentialAgent(
     name="media_pipeline"
 )
 
-orchestrator_agent = Agent(
+root_agent = Agent(
     model=os.getenv("MODEL_TEXT"),
     name="orchestrator",
     description="Generates the educational video by orchestrating multiple specialized agents.",

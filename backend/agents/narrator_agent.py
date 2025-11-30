@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from google.adk import Agent
-from tools.tts_tool import tts_tool
+from backend.tools.tts_tool import tts_tool
 
 load_dotenv()
 

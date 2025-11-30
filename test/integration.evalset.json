@@ -1,0 +1,76 @@
+{
+  "eval_set_id": "learncraft-ai_suite",
+  "eval_cases": [
+    {
+      "eval_id": "test-001-video",
+      "conversation": [
+        {
+          "user_content": {
+            "parts": [
+              {
+                "text": "explain algebra to 4th grader"
+              }
+            ]
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "data/videos/algebra/algebra.mp4"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "topic_agent",
+                "args": {  }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "test-002-exercises",
+      "conversation": [
+        {
+          "user_content": {
+            "parts": [
+              {
+                "text": "give me some exercises to practice"
+              }
+            ]
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "1.\tWhat is algebra?\n2.\tWhat do letters in algebra stand for?\n3.\tWhat is an unknown number called in algebra?\n4.\tWhat does an equation have?\n5.\tWhat does the equal sign (=) show in an equation?\n6.\tHow can you solve for x?\n7.\tIf an equation has addition, what operation can you use to find the answer?\n8.\tWhere is algebra used in real life?\n"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "test-003-answers",
+      "conversation": [
+        {
+          "user_content": {
+            "parts": [
+              {
+                "text": "give me answers to these"
+              }
+            ]
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "1. Answer is 5..."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

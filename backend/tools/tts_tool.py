@@ -6,9 +6,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-BASE_OUTPUT_DIR = Path("/app/data/speeches")
-BASE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+# Recommended: Create a 'data' folder at the project root for outputs
+PROJECT_ROOT = Path(__file__).resolve().parents[1] # Navigates up from tts_tool.py -> tools -> backend -> learncraft-ai
+BASE_OUTPUT_DIR = PROJECT_ROOT / "data" / "speeches"
 
+# Ensure the directory is created
+BASE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+# ... rest of tts_tool.py ...
 
 async def tts_tool(text: str, topic: str) -> Dict[str, Any]:
     """
