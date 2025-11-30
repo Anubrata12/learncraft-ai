@@ -5,10 +5,10 @@ import os
 
 FASTAPI_URL = "http://fastapi-backend:8000/generate"
 
-st.set_page_config(page_title="Educative AI Video Generator")
-st.title("🎬 Educative AI Video Generator")
+st.set_page_config(page_title="LearnCraft AI Video Generator", page_icon="🎬")
+st.title("🎬 LearnCraft AI: Your Personalized tutor")
 
-topic = st.chat_input("Enter a topic...")
+topic = st.chat_input("What you want to learn today?")
 
 if topic:
     with st.chat_message("user"):
