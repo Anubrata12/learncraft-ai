@@ -11,7 +11,7 @@ from .slide_agent import slide_agent
 from .video_compiler_agent import video_compiler_agent
 from .exercise_agent import exercise_agent
 from .answer_agent import answer_agent
-from backend.tools.state_tool import save_topic, load_topic, save_exercises, load_exercises, save_script, load_script
+from tools.state_tool import save_topic, load_topic, save_exercises, load_exercises, save_script, load_script
 
 load_dotenv()
 

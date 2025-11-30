@@ -1,4 +1,4 @@
-# LearnCraft AI — Personalized AI-Generated Learning Workflow 🎓
+# 🎓 LearnCraft AI — Personalized AI-Generated Learning Workflow
 
 **LearnCraft AI** transforms a simple topic description into a full learning experience: explainer video → practice exercises → answers/solutions.  
 With a conversation-style interface, users can **learn, practice, and verify** — all from a single prompt.
@@ -7,18 +7,18 @@ With a conversation-style interface, users can **learn, practice, and verify** �
 
 ## 📘 Table of Contents
 
-- [Why LearnCraft AI?](#why-learncraft-ai)  
-- [Features](#features)  
-- [Architecture & Workflow](#architecture----workflow)  
-- [Application Flow](#application-flow)  
+- [Why LearnCraft AI?](#why-learncraft-ai)
+- [Features](#features)
+- [Architecture & Workflow](#architecture--workflow)
+- [Application Flow](#application-flow)
 - [Assumptions in the Project](#assumptions-in-the-project)
 - [Tech Stack](#tech-stack)
-- [Setup Instructions (Docker Compose)](#-setup-instructions-docker-compose)
-  - [Clone the repository](#-clone-the-repository)
-  - [Build and start services](#-build-and-start-services)
-  - [Access the services](#-access-the-services)
-  - [Stopping services](#-stopping-services)
-- [Usage Examples](#-usage-examples)
+- [Setup Instructions (Docker Compose)](#setup-instructions-docker-compose)
+  - [Clone the repository](#clone-the-repository)
+  - [Build and start services](#build-and-start-services)
+  - [Access the services](#access-the-services)
+  - [Stopping services](#stopping-services)
+- [Usage Examples](#usage-examples)
 - [Future Improvements](#future-improvements)
 
 ---
