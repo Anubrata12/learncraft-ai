@@ -1,76 +1,126 @@
-{
-  "eval_set_id": "learncraft-ai_suite",
-  "eval_cases": [
-    {
-      "eval_id": "test-001-video",
-      "conversation": [
-        {
-          "user_content": {
-            "parts": [
-              {
-                "text": "explain algebra to 4th grader"
-              }
-            ]
+  {
+    "eval_set_id": "learncraft-ai_suite",
+    "eval_cases": [
+      {
+        "eval_id": "test-algebra-full-flow",
+        "conversation": [
+          {
+            "user_content": {
+              "parts": [
+                {
+                  "text": "explain algebra to 4th grader"
+                }
+              ]
+            },
+            "final_response": {
+              "parts": [
+                {
+                  "text": "/app/data/videos/basic_algebra/basic_algebra.mp4"
+                }
+              ]
+            },
+            "intermediate_data": {
+              "tool_uses": [
+                {
+                  "name": "TopicAgent",
+                  "args": {
+                    "request": "explain algebra to 4th grader"
+                  }
+                },
+                {
+                  "name": "save_topic",
+                  "args": {
+                    "topic_name": "algebra"
+                  }
+                },
+                {
+                  "name": "ScriptAgent",
+                  "args": {
+                    "request": "explain algebra to 4th grader"
+                  }
+                },
+                {
+                  "name": "save_script",
+                  "args": {
+                    "request": "What is Algebra?\nAlgebra is a fun type of math that uses letters and symbols. It helps us solve puzzles and find missing numbers.\n\nUsing Letters\nIn algebra, letters stand for unknown numbers. These letters are like secret codes waiting to be solved.\n\nSimple Equations\nAn equation is like a math sentence with an equal sign. We use algebra to figure out what the letters are worth.\n\nFinding the Value\nTo solve for a letter, we need to find its value. We use clues and rules to uncover the secret number.\n\nAddition and Subtraction\nIn algebra, we use addition and subtraction to solve equations. We keep both sides of the equation bal anced.\n\nMultiplication and Division\nWe also use multiplication and division. These help us find the missing numbers in a clever way.\n\nReal- Life Problems\nAlgebra can help with real-life problems. We can use it to figure out how much things cost or how far we travel.\n\nPractice Makes Perfect\nThe more you practice, the better you will get at algebra. Solving problems is like a game, and it’s a lot of fun!\n"
+                  }
+                },
+                {
+                  "name": "media_pipeline",
+                  "args": {
+                    "request": "{\"topic\": \"algebra\",\"script\": \"What is Algebra?\\nAlgebra is a fun type of math that uses letters and symbols. It helps us solve puzzles and find missing numbers.\\n\\nUsing Letters\\nIn algebra, letters stand for unknown numbers. These letters are like secret codes waiting to be solved.\\n\\nSimple Equations\\nAn equation is like a math sentence with an equal sign. We use algebra to figure out what the letters are worth.\\n\\nFinding the Value\\nTo solve for a letter, we need to find its value. We use clues and rules to uncover the secret number.\\n\\nAddition and Subtraction\\nIn algebra, we use addition and subtraction to solve equations. We keep both sides of the equation bal anced.\\n\\nMultiplicatio n and Division\\nWe also use multiplication and division. These help us find the missing numbers in a clever way.\\n\\nReal-Life Problems\\nAlgebra can help with real-life problems. We can use it to figure out how much things cost or how far we travel.\\n\\nPractice Makes Perfect\\nThe more you practice, the better you will get at algebra. Solving problems is like a game, and it’s a lot of fun!\\n\"}"
+                  }
+                }
+              ]
+            }
           },
-          "final_response": {
-            "parts": [
-              {
-                "text": "data/videos/algebra/algebra.mp4"
-              }
-            ]
+          {
+            "user_content": {
+              "parts": [
+                {
+                  "text": "give me some exercises to practice"
+                }
+              ]
+            },
+            "final_response": {
+              "parts": [
+                {
+                  "text": "EXERCISE_OUTPUT: 1.What is algebra?\n2.What do letters in algebra stand for?\n3.What is an unknown number called in algebra?\n4.What does an equation have?\n5.What does the equal sign (=) show in an equation?\n6.How can you solve for x?\n7.If an equation has addition, what operation can you use to find the answer?\n8.Where is algebra used in real life?\n"
+                }
+              ]
+            },
+            "intermediate_data": {
+              "tool_uses": [
+                {
+                  "name": "load_script",
+                  "args": {}
+                },
+                {
+                  "name": "ExerciseAgent",
+                  "args": {
+                    "request": "What is Algebra?\nAlgebra is a fun type of math that uses letters and symbols. It helps us solve puzzles and find missing numbers.\n\nUsing Letters\nIn algebra, letters stand for unknown numbers. These letters are like secret codes waiting to be solved.\n\nSimple Equations\nAn equation is like a math sentence with an equal sign. We use algebra to figure out what the letters are worth.\n\nFinding the Value\nTo solve for a letter, we need to find its value. We use clues and rules to uncover the secret number.\n\nAddition and Subtraction\nIn algebra, we use addition and subtraction to solve equations. We keep both sides of the equation bal anced.\n\nMultiplication and Division\nWe also use multiplication and division. These help us find the missing numbers in a clever way.\n\nReal- Life Problems\nAlgebra can help with real-life problems. We can use it to figure out how much things cost or how far we travel.\n\nPractice Makes Perfect\nThe more you practice, the better you will get at algebra. Solving problems is like a game, and it’s a lot of fun!\n"
+                  }
+                },
+                {
+                  "name": "save_exercises",
+                  "args": {
+                    "exercises": "EXERCISE_OUTPUT:\n1. What is algebra?\n2. What do letters stand for in algebra?\n3. What is an equation?\n4. What sign is in an equation?\n5. What do we do to find the value of a letter?\n6. Name two math operations used in algebra.\n7. Can algebra be used for real- life problems?\n8. How can you become better at algebra?\n"
+                  }
+                }
+              ]
+            }
           },
-          "intermediate_data": {
-            "tool_uses": [
-              {
-                "name": "topic_agent",
-                "args": {  }
-              }
-            ]
+          {
+            "user_content": {
+              "parts": [
+                {
+                  "text": "give me answers to these"
+                }
+              ]
+            },
+            "final_response": {
+              "parts": [
+                {
+                  "text": "EXERCISE_OUTPUT:\n\n1. Algebra is a branch of mathematics that uses letters and symbols to represent numbers and solve equations. It's like a puzzle where you figure out the missing numbers!\n\n2. In algebra, letters and symbols stand for numbers. These numbers can be known (like 2 or 5) or unknown (represented by letters like 'x' or 'y').\n\n3. The letters used in algebra are called variables. They can represent different values, and the goal is often to find out what those values are.\n\n4. An equation is a mathematical statement that shows two things are equal. It has an equals sign (=) in the middle. For example, '2 + 2 = 4' is an equation.\n\n5. The main goal in algebra is to find the value of unknown variables in an equation. This means figuring out what number a letter (like 'x') represents.\n\n6. You use all the basic math operations in algebra: addition (+), subtraction (–), multiplication (×), and division (÷).\n\n7. If x + 3 = 7, then x = 4. You can find this by subtracting 3 from both sides of the equation."
+                }
+              ]
+            },
+            "intermediate_data": {
+              "tool_uses": [
+                {
+                  "name": "load_exercises",
+                  "args": {}
+                },
+                {
+                  "name": "AnswerAgent",
+                  "args": {
+                    "request": "{\"exercises\": \"EXERCISE_OUTPUT:\\n1. What is algebra?\\n2. What do letters stand for in algebra?\\n3. What is an equation?\\n4. What sign is in an equation?\\n5. What do we do to find the value of a letter?\\n6. Name two math operations used in algebra.\\n7. Can algebra be used for real-life problems?\\n8. How can you become better at algebra?\\n\"}"
+                  }
+                }
+              ]
+            }
           }
-        }
-      ]
-    },
-    {
-      "eval_id": "test-002-exercises",
-      "conversation": [
-        {
-          "user_content": {
-            "parts": [
-              {
-                "text": "give me some exercises to practice"
-              }
-            ]
-          },
-          "final_response": {
-            "parts": [
-              {
-                "text": "1.\tWhat is algebra?\n2.\tWhat do letters in algebra stand for?\n3.\tWhat is an unknown number called in algebra?\n4.\tWhat does an equation have?\n5.\tWhat does the equal sign (=) show in an equation?\n6.\tHow can you solve for x?\n7.\tIf an equation has addition, what operation can you use to find the answer?\n8.\tWhere is algebra used in real life?\n"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "eval_id": "test-003-answers",
-      "conversation": [
-        {
-          "user_content": {
-            "parts": [
-              {
-                "text": "give me answers to these"
-              }
-            ]
-          },
-          "final_response": {
-            "parts": [
-              {
-                "text": "1. Answer is 5..."
-              }
-            ]
-          }
-        }
-      ]
-    }
-  ]
-}
+        ]
+      }
+    ]
+  }
