@@ -40,46 +40,6 @@ def create_slide_image(title: str, content: str, save_path: str):
 
     img.save(save_path)
 
-def generate_structured_script(file_path: str):
-    '''Parses the script file into a structured format with sections.
-        Arguments:
-            filePath: The absolute path to the script file.
-        Returns:
-            A dictionary with status and structured script data.
-            Success: {"status": "success", "data": [...]}
-            Error: {"status": "error", "error_message": "..."}
-    '''
-    if not os.path.exists(file_path):
-        return {"status": "error", "error_message": f"Script file not found at {file_path}"}
-    with open(file_path, "r", encoding="utf-8") as f:
-        lines = f.read().strip().split("\n")
-
-    sections = []
-    current_title = None
-    current_body = []
-
-    for line in lines:
-        line = line.strip()
-        # A non-empty line with no indentation starts a new section
-        if line and not line.startswith("[") and current_title is None:
-            current_title = line
-            current_body = []
-            continue
-        # A blank line means the section ended
-        if line == "" and current_title:
-            sections.append({"title": current_title, "content": "\n".join(current_body).strip()})
-            current_title = None
-            current_body = []
-            continue
-        # Regular body lines
-        if current_title:
-            current_body.append(line)
-    # Add the last section if it's not empty
-    if current_title:
-        sections.append({"title": current_title, "content": "\n".join(current_body).strip()})
-
-    return {"status": "success", "data": sections}
-
 
 def generate_slides_from_sections(sections: list[dict], topic: str) -> dict:
     """
