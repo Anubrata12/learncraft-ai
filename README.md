@@ -20,6 +20,7 @@ With a conversation-style interface, users can **learn, practice, and verify** �
   - [Access the services](#access-the-services)
   - [Stopping services](#stopping-services)
 - [Usage Examples](#usage-examples)
+- [Local Development Testing Notes](#local-testing-steps)
 - [Observability and Evaluation](#observability-and-evaluation)
 - [Future Improvements](#future-improvements)
 
@@ -167,6 +168,59 @@ docker compose down
 
 - “Teach me another chapter: Photosynthesis”
 ---
+<a id="local-testing-steps"></a>
+
+## 🛠 Local Development Testing Notes
+
+### 1. Update Relative Paths in Tool Files
+
+All tool files referencing absolute paths must be updated to use project-relative paths.
+
+**Original Code**
+```bash
+output_dir = os.path.join("/app/data/slides", safe_topic)
+os.makedirs(output_dir, exist_ok=True)
+```
+
+**Updated Code**
+```bash
+PROJECT_ROOT = Path(__file__).resolve().parents[1]  # Relative to project directory
+BASE_OUTPUT_DIR = PROJECT_ROOT / "data" / "videos"  # Creates: learncraft-ai/data/videos/
+BASE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+```
+
+### 2. Install FFmpeg
+
+**▶ Windows Installation Steps**
+
+- Download the FFmpeg full build (ZIP) from the official site.
+
+- Extract it to: `C:\ffmpeg`
+
+- Add this to your system PATH: `C:\ffmpeg\bin`
+
+- Verify installation:
+    ```bash
+    ffmpeg -version
+    ```
+
+### 3. Testing Workflow 
+
+- Create an evaluation configuration (metrics + measurement rules)
+→ `test_config.json`
+
+- Create evaluation testcases
+→ `integration.evalset.json`
+
+- Run the agent with the test query
+→ `test_learncraft_ai.py`
+
+- Command to run pyTEST
+    > pytest .\test
+
+- Compare Results
+
+---
 <a id="observability-and-evaluation"></a>
 ## 📊 Observability and Evaluation
 #### Agent Observability
@@ -177,8 +231,7 @@ All interactions are logged through a pluggable logging pipeline, enabling full 
 Evaluation harness for validating agent correctness, performance, and reliability is included.
 Scenarios are defined in JSON evalset, and the evaluation engine replays conversations, measures tool-call accuracy, and scores final outputs. This allows regression checks as we iterate on prompts, models, or agent logic.
 
-#### Steps to run pyTEST
-> pytest .\test
+
 
 ---
 <a id="future-improvements"></a>
