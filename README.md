@@ -23,6 +23,7 @@ With a conversation-style interface, users can **learn, practice, and verify** �
 
 ---
 
+<a id="why-learncraft-ai"></a>
 ## 🎯 Why LearnCraft AI?
 
 Many learners jump between video tutorials, PDF/HTML notes, and scattered exercises — breaking the flow and reducing retention.  
@@ -35,7 +36,7 @@ LearnCraft AI offers a **unified, agent-driven pipeline** that:
 This restores a continuous, interactive learning loop: **Teach → Practice → Check → Improve** — without switching platforms.
 
 ---
-
+<a id="features"></a>
 ## ✅ Features
 
 - Generate full **video lessons** from plain-text topic descriptions  
@@ -48,7 +49,7 @@ This restores a continuous, interactive learning loop: **Teach → Practice → 
 
 
 ---
-
+<a id="architecture--workflow"></a>
 ## ⚙️ Architecture & Workflow
 
 1. **User Input** — A simple text prompt like *“Explain Newton’s laws”*  
@@ -66,7 +67,7 @@ This restores a continuous, interactive learning loop: **Teach → Practice → 
    - Frontend: `Streamlit` for interactive chat UI  
 
 ---
-
+<a id="application-flow"></a>
 ## 🔄 Application Flow
 
 | User Action                  | System Response              | Stored Context  |
@@ -79,7 +80,7 @@ This restores a continuous, interactive learning loop: **Teach → Practice → 
 The system is session-aware — meaning it remembers what the user is learning.
 
 ---
-
+<a id="assumptions-in-the-project"></a>
 ## 📌 Assumptions in the Project
 
 - The user interacts in natural conversation style (not structured commands).
@@ -93,7 +94,7 @@ The system is session-aware — meaning it remembers what the user is learning.
 - Video generation uses a scripted format (not real dynamic scene creation).
 
 ---
-
+<a id="tech-stack"></a>
 ## 🛠️ Tech Stack
 
 | Layer           | Technologies                                    |
@@ -107,33 +108,35 @@ The system is session-aware — meaning it remembers what the user is learning.
 | Build/Deploy    | Docker & Docker Compose                         |
 
 ---
-
+<a id="setup-instructions-docker-compose"></a>
 ## 🧩 Setup Instructions (Docker Compose) 
 
+<a id="clone-the-repository"></a>
 ### 1️⃣ Clone the repository
 ```bash
 git clone https://github.com/Anubrata12/learncraft-ai.git
 cd learncraft-ai
 ```
-
+<a id="build-and-start-services"></a>
 ### 2️⃣ Build and start services
 ```bash
 docker compose up --build
 ```
-
+<a id="access-the-services"></a>
 ### 3️⃣ Access the services
 | Service     | URL                                            |
 |-------------| ---------------------------------------------- |
 | Frontend UI | [http://localhost:8501](http://localhost:8501) |
 | Swagger API | [http://localhost:8000](http://localhost:8000) |
 
+<a id="stopping-services"></a>
 ### 4️⃣ Stopping services
 ```bash
 docker compose down
 ```
 
 ---
-
+<a id="usage-examples"></a>
 ## 🧪 Usage Examples
 
 - “Explain algebra with examples”
@@ -145,7 +148,7 @@ docker compose down
 - “Teach me another chapter: Photosynthesis”
 
 ---
-
+<a id="future-improvements"></a>
 ## 🔭 Future Improvements
 
 - Database-backed SessionService
