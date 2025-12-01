@@ -71,8 +71,6 @@ This restores a continuous, interactive learning loop: **Teach → Practice → 
 
 ![LearnCraft Architecture](assets/architecture.jpg)
 
-![LearnCraft Agents Interaction](assets/agents_interaction.jpg)
-
 ---
 <a id="application-flow"></a>
 ## 🔄 Application Flow
