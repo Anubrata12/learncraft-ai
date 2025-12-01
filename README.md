@@ -19,6 +19,7 @@ With a conversation-style interface, users can **learn, practice, and verify** �
   - [Access the services](#access-the-services)
   - [Stopping services](#stopping-services)
 - [Usage Examples](#usage-examples)
+- [Observability and Evaluation](#observability-and-evaluation)
 - [Future Improvements](#future-improvements)
 
 ---
@@ -146,6 +147,19 @@ docker compose down
 - “Now give answers”
 
 - “Teach me another chapter: Photosynthesis”
+---
+<a id="observability-and-evaluation"></a>
+## 📊 Observability and Evaluation
+#### Agent Observability
+Built-in observability layer is included that captures every agent step, tool invocation, state transition, and error event. 
+All interactions are logged through a pluggable logging pipeline, enabling full traceability and easier debugging of complex multi-agent workflows. Structured logs can be streamed to the console, persisted in the backend, or pushed to external dashboards for deeper analysis.
+
+#### Agent Evaluation
+Evaluation harness for validating agent correctness, performance, and reliability is included.
+Scenarios are defined in JSON evalset, and the evaluation engine replays conversations, measures tool-call accuracy, and scores final outputs. This allows regression checks as we iterate on prompts, models, or agent logic.
+
+#### Steps to run pyTEST
+> pytest .\test
 
 ---
 <a id="future-improvements"></a>
