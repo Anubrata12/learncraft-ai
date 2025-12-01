@@ -62,11 +62,18 @@ This restores a continuous, interactive learning loop: **Teach → Practice → 
    - `SlideAgent` + `NarratorAgent` — generate slides and narration  
    - `VideoCompilerAgent` — stitches slides + audio into MP4 video  
    - `ExerciseAgent` — generates practice questions from the lesson  
-   - `AnswerAgent` — generates matching solutions when requested  
+   - `AnswerAgent` — generates matching solutions when requested
+
+![LearnCraft Agents Interaction](assets/agents_interaction.jpg)
+
+
 4. **State Persistence Tools** — `save_topic` / `save_exercises` / `save_script` / `load_topic` / `load_exercises` / `load_script` to keep context across messages  
 5. **Frontend & Backend**:  
    - Backend: `FastAPI` + agent runner  
    - Frontend: `Streamlit` for interactive chat UI  
+
+
+![LearnCraft Architecture](assets/architecture.jpg)
 
 ---
 <a id="application-flow"></a>
