@@ -10,3 +10,5 @@ torch==2.2.0
 Pillow
 google-genai
 google-adk
+
+pytest-asyncio
