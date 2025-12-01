@@ -6,6 +6,7 @@
 # Python artifacts
 __pycache__/
 *.py[cod]
+.adk/
 
 # IDE/editor configs
 .vscode/
