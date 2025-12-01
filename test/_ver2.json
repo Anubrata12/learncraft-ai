@@ -1,0 +1,89 @@
+{
+  "eval_set_id": "learncraft-ai_suite",
+  "eval_cases": [
+    {
+      "eval_id": "test-algebra-full-flow",
+      "conversation": [
+        {
+          "user_content": {
+            "parts": [
+              {
+                "text": "explain algebra to 4th grader"
+              }
+            ]
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "/app/data/videos/basic_algebra/basic_algebra.mp4"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "TopicAgent",
+                "args": {
+                  "request": "EXERCISE_OUTPUT:\\n1. What is algebra?\\n2. What do letters stand for in algebra?\\n3. What is an equation?\\n4. In the equation \\\"x + 3 = 7\\\", what is the goal?\\n5. If an equation has addition, what operation do you use to solve it?\\n6. Give an example of how algebra can be used in the real world.\\n7. How can you become good at algebra?\\n"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "user_content": {
+            "parts": [
+              {
+                "text": "give me some exercises to practice"
+              }
+            ]
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "EXERCISE_OUTPUT: 1.What is algebra?\n2.What do letters in algebra stand for?\n3.What is an unknown number called in algebra?\n4.What does an equation have?\n5.What does the equal sign (=) show in an equation?\n6.How can you solve for x?\n7.If an equation has addition, what operation can you use to find the answer?\n8.Where is algebra used in real life?\n"
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "load_script",
+                "args": {
+                  "request": "EXERCISE_OUTPUT:\\n1. What is algebra?\\n2. What do letters stand for in algebra?\\n3. What is an equation?\\n4. In the equation \\\"x + 3 = 7\\\", what is the goal?\\n5. If an equation has addition, what operation do you use to solve it?\\n6. Give an example of how algebra can be used in the real world.\\n7. How can you become good at algebra?\\n"
+                }
+              }
+            ]
+          }
+        },
+
+        {
+          "user_content": {
+            "parts": [
+              {
+                "text": "give me answers to these"
+              }
+            ]
+          },
+          "final_response": {
+            "parts": [
+              {
+                "text": "EXERCISE_OUTPUT:\n\n1. Algebra is a branch of mathematics that uses letters and symbols to represent numbers and solve equations. It's like a puzzle where you figure out the missing numbers!\n\n2. In algebra, letters and symbols stand for numbers. These numbers can be known (like 2 or 5) or unknown (represented by letters like 'x' or 'y').\n\n3. The letters used in algebra are called variables. They can represent different values, and the goal is often to find out what those values are.\n\n4. An equation is a mathematical statement that shows two things are equal. It has an equals sign (=) in the middle. For example, '2 + 2 = 4' is an equation.\n\n5. The main goal in algebra is to find the value of unknown variables in an equation. This means figuring out what number a letter (like 'x') represents.\n\n6. You use all the basic math operations in algebra: addition (+), subtraction (–), multiplication (×), and division (÷).\n\n7. If x + 3 = 7, then x = 4. You can find this by subtracting 3 from both sides of the equation."
+              }
+            ]
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "name": "load_exercises",
+                "args": {
+                  "request": "EXERCISE_OUTPUT:\\n1. What is algebra?\\n2. What do letters stand for in algebra?\\n3. What is an equation?\\n4. In the equation \\\"x + 3 = 7\\\", what is the goal?\\n5. If an equation has addition, what operation do you use to solve it?\\n6. Give an example of how algebra can be used in the real world.\\n7. How can you become good at algebra?\\n"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

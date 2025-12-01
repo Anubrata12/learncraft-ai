@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 
 from google.adk import Agent
-from tools.slide_tool import generate_slides_from_sections
+from backend.tools.slide_tool import generate_slides_from_sections
 import os
 
 load_dotenv()

@@ -6,9 +6,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-BASE_OUTPUT_DIR = Path("/app/data/speeches")
-BASE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+# Recommended: Create a 'data' folder at the project root for outputs
+PROJECT_ROOT = Path(__file__).resolve().parents[1] # Navigates up from tts_tool.py -> tools -> backend -> learncraft-ai
+BASE_OUTPUT_DIR = PROJECT_ROOT / "data" / "speeches"
 
+# Ensure the directory is created
+BASE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+DEFAULT_VOICE = "en-US-AriaNeural"
+VOICE_NAME = os.getenv("MODEL_TTS", DEFAULT_VOICE).strip()
+
+# ... rest of tts_tool.py ...
 
 async def tts_tool(text: str, topic: str) -> Dict[str, Any]:
     """
@@ -29,8 +36,12 @@ async def tts_tool(text: str, topic: str) -> Dict[str, Any]:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     transcript_file = OUTPUT_DIR / f"{safe_topic}.txt"
 
+    with open(transcript_file, "w", encoding="utf-8") as tf:
+        tf.write(f"Transcript for topic: {topic}\n\n")
+
     generated_paths: list[str] = []
 
+    print(f"TTS_TOOL*******: Using voice: '{VOICE_NAME}'")
     print(f"TTS_TOOL*******: Generating {len(script_sections)} MP3 files for topic '{safe_topic}'")
 
     try:
@@ -44,7 +55,7 @@ async def tts_tool(text: str, topic: str) -> Dict[str, Any]:
             print(f"TTS_TOOL*******: Generating section {i + 1} at {output_file}")
 
             try:
-                tts = edge_tts.Communicate(section_text, os.getenv("MODEL_TTS"))
+                tts = edge_tts.Communicate(section_text, VOICE_NAME)
                 await tts.save(str(output_file))
                 generated_paths.append(str(output_file.resolve()))
             except Exception as e:

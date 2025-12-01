@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 
 from google.adk import Agent
-from tools.ffmpeg_tool import stitch_video
+from backend.tools.ffmpeg_tool import stitch_video
 
 load_dotenv()
 

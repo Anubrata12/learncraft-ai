@@ -1,44 +1,63 @@
+from pathlib import Path
+
 from PIL import Image, ImageDraw, ImageFont
 import textwrap
 import os
 import traceback
 
+# Recommended: Create a 'data' folder at the project root for outputs
+PROJECT_ROOT = Path(__file__).resolve().parents[1] # Navigates up from tts_tool.py -> tools -> backend -> learncraft-ai
+BASE_OUTPUT_DIR = PROJECT_ROOT / "data" / "slides"
+
+# Ensure the directory is created
+BASE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+# ... rest of tts_tool.py ...
 
 SLIDE_WIDTH = 1920
 SLIDE_HEIGHT = 1080
 
-TITLE_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-BODY_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+# TITLE_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+# BODY_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 
-def create_slide_image(title: str, content: str, save_path: str):
-    """Generates a clean, modern slide PNG."""
-    img = Image.new("RGB", (SLIDE_WIDTH, SLIDE_HEIGHT), (245, 247, 250))
-    draw = ImageDraw.Draw(img)
+def create_slide_image(title: str, content: str, save_path: Path):
 
-    # Gradient background (subtle)
-    for i in range(SLIDE_HEIGHT):
-        color = (245 - i // 30, 247 - i // 40, 250 - i // 50)
-        draw.line([(0, i), (SLIDE_WIDTH, i)], fill=color)
+    try :
+        """Generates a clean, modern slide PNG."""
+        img = Image.new("RGB", (SLIDE_WIDTH, SLIDE_HEIGHT), (245, 247, 250))
+        draw = ImageDraw.Draw(img)
 
-    # Load fonts
-    title_font = ImageFont.truetype(TITLE_FONT, 72)
-    body_font = ImageFont.truetype(BODY_FONT, 48)
+        # Gradient background (subtle)
+        for i in range(SLIDE_HEIGHT):
+            color = (245 - i // 30, 247 - i // 40, 250 - i // 50)
+            draw.line([(0, i), (SLIDE_WIDTH, i)], fill=color)
 
-    # Title box
-    draw.rectangle([(0, 0), (SLIDE_WIDTH, 180)], fill=(25, 40, 60))
-    draw.text((80, 50), title, font=title_font, fill="white")
+        # Load fonts
+        # title_font = ImageFont.truetype(TITLE_FONT, 72)
+        # body_font = ImageFont.truetype(BODY_FONT, 48)
 
-    # Content text
-    wrapped_text = textwrap.fill(content, width=55)
-    draw.multiline_text(
-        (80, 240),
-        wrapped_text,
-        font=body_font,
-        fill=(20, 20, 20),
-        spacing=15
-    )
+        title_font = ImageFont.load_default()
+        body_font = ImageFont.load_default()
 
-    img.save(save_path)
+        # Title box
+        draw.rectangle([(0, 0), (SLIDE_WIDTH, 180)], fill=(25, 40, 60))
+        draw.text((80, 50), title, font=title_font, fill="white")
+
+        # Content text
+        wrapped_text = textwrap.fill(content, width=55)
+        draw.multiline_text(
+            (80, 240),
+            wrapped_text,
+            font=body_font,
+            fill=(20, 20, 20),
+            spacing=15
+        )
+
+        img.save(str(save_path))
+
+    except Exception as e:
+        error_msg = f"{e}\n{traceback.format_exc()}"
+        print("SLIDE_TOOL ERROR********** : create_slide_image")
+        print(error_msg)
 
 def generate_structured_script(file_path: str):
     '''Parses the script file into a structured format with sections.
@@ -96,14 +115,18 @@ def generate_slides_from_sections(sections: list[dict], topic: str) -> dict:
     """
     try:
         safe_topic = topic.replace(" ", "_").lower() if topic else "default_topic"
-        output_dir = os.path.join("/app/data/slides", safe_topic)
-        os.makedirs(output_dir, exist_ok=True)
+        output_dir = BASE_OUTPUT_DIR / safe_topic
+        output_dir.mkdir(parents=True, exist_ok=True)
 
         slide_paths = []
         print(f"SLIDE_TOOL*******: Generating styled PNG slides for '{safe_topic}' in {output_dir}")
 
         for i, section in enumerate(sections, start=1):
-            slide_path = os.path.join(output_dir, f"slide_{i}.png")
+       #     slide_path = os.path.join(output_dir, f"slide_{i}.png")
+            slide_path = output_dir / f"slide_{i}.png"
+
+            print(f"SLIDE_TOOL*******: SIDE PATH '{slide_path}' in {output_dir}")
+
             title = section.get("title", f"Slide {i}")
             content = section.get("content", "")
 
@@ -113,4 +136,7 @@ def generate_slides_from_sections(sections: list[dict], topic: str) -> dict:
         return {"status": "success", "data": slide_paths}
 
     except Exception as e:
+        error_msg = f"{e}\n{traceback.format_exc()}"
+        print("SLIDE_TOOL ERROR**********")
+        print(error_msg)
         return {"status": "error", "error_message": f"{e}\n{traceback.format_exc()}"}

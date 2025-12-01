@@ -3,7 +3,11 @@ import subprocess
 from typing import List, Dict, Any
 from pathlib import Path
 
-BASE_OUTPUT_DIR = Path("/app/data/videos")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+# Use a path relative to the project directory
+BASE_OUTPUT_DIR = PROJECT_ROOT / "data" / "videos"
+
+# This will create learncraft-ai/data/videos/
 BASE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 def get_audio_duration(file_path: str) -> float:
@@ -49,6 +53,8 @@ def stitch_video(topic: str, audio_paths: List[str], slide_paths: List[str]) -> 
     try:
         # 0. Ensure output directory exists
         os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+        print(f"OUTPUT_DIR: {OUTPUT_DIR}")
 
         # 1. Iterate over slides and audio files to create temporary video segments
         for i, (slide, audio) in enumerate(zip(slide_paths, audio_paths)):
