@@ -13,6 +13,7 @@ With a conversation-style interface, users can **learn, practice, and verify** �
 - [Application Flow](#application-flow)
 - [Assumptions in the Project](#assumptions-in-the-project)
 - [Tech Stack](#tech-stack)
+- [Environment Configuration (Required Before Running)](#env-config)
 - [Setup Instructions (Docker Compose)](#setup-instructions-docker-compose)
   - [Clone the repository](#clone-the-repository)
   - [Build and start services](#build-and-start-services)
@@ -109,6 +110,21 @@ The system is session-aware — meaning it remembers what the user is learning.
 | Build/Deploy    | Docker & Docker Compose                         |
 
 ---
+<a id="env-config"></a>
+
+## ⚙️ Environment Configuration (Required Before Running)
+
+Create a .env file in the project root and add the following:
+```bash
+GOOGLE_API_KEY=your_google_api_key_here
+MODEL_TEXT=gemini-2.0-flash-001
+# Optional lightweight model
+# MODEL_TEXT=gemini-2.0-flash-lite
+MODEL_TTS=en-US-AriaNeural
+```
+💡 *Your Google API key is required for agent execution, tool calling, and Gemini responses.*
+___
+
 <a id="setup-instructions-docker-compose"></a>
 ## 🧩 Setup Instructions (Docker Compose) 
 
